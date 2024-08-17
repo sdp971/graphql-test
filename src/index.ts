@@ -20,6 +20,7 @@ interface Review {
   rating: number;
   content: string;
   game_id: string;
+  author_id: string;
 
 }
 
@@ -27,6 +28,7 @@ interface Author {
   id: string;
   name: string;
   verified: boolean;
+ 
 
 }
 
@@ -56,7 +58,21 @@ const resolvers = {
       return db.reviews.filter(review => review.game_id === parent.id)
 
     }
+  },
+  Author: {
+    reviews(parent: Author) {
+      return db.reviews.filter(review => review.author_id === parent.id)
+    }
+  },
+  Review: {
+    author(parent: Review) {
+      return db.authors.find(author => author.id === parent.author_id)
+    },
+    game(parent: Review) {
+      return db.games.find(game => game.id ===parent.game_id)
+    }
   }
+
 };
 
 

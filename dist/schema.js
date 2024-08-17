@@ -18,12 +18,17 @@ export const typeDefs = `#graphql
     game: Game!
     author: Author!
     game_id: ID
+    author_id: ID
+   
   }
   type Author {
     id: ID!
     name: String!
     verified: Boolean!
     reviews: [Review!]
+   
+    
+   
   }
   type Query {
     games: [Game]
@@ -35,5 +40,4 @@ export const typeDefs = `#graphql
   }
  
 `;
-;
-//int, float, string, boolean, ID 
+//int, float, string, boolean, ID
