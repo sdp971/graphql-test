@@ -15,6 +15,8 @@ interface Game {
 
 }
 
+
+
 interface Review {
   id: string;
   rating: number;
@@ -31,6 +33,7 @@ interface Author {
  
 
 }
+
 
 const resolvers = {
   Query: {
@@ -70,6 +73,12 @@ const resolvers = {
     },
     game(parent: Review) {
       return db.games.find(game => game.id ===parent.game_id)
+    }
+  },
+  Mutation:  {
+    deleteGame(parent: Game, args: { id: string })   {
+      db.games = db.games.filter((game: Game) => game.id !== args.id)
+      return db.games
     }
   }
 
