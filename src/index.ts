@@ -19,6 +19,7 @@ interface Review {
   id: string;
   rating: number;
   content: string;
+  game_id: string;
 
 }
 
@@ -50,6 +51,12 @@ const resolvers = {
       return db.authors.find((author: Author) => author.id === args.id);
     },
   },
+  Game: {
+    reviews(parent: Game) {
+      return db.reviews.filter(review => review.game_id === parent.id)
+
+    }
+  }
 };
 
 
