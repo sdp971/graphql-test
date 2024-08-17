@@ -4,19 +4,27 @@ import { startStandaloneServer } from "@apollo/server/standalone";
 import db from './_db.js';
 //types
 import { typeDefs } from './schema.js';
-// Resolvers define how to fetch the types defined in your schema.
 const resolvers = {
     Query: {
-        games() {
+        games(author) {
             return db.games;
         },
-        reviews() {
+        game(author, args) {
+            return db.games.find((game) => game.id === args.id);
+        },
+        reviews(author) {
             return db.reviews;
         },
-        authors() {
+        review(author, args) {
+            return db.reviews.find((review) => review.id === args.id);
+        },
+        authors(author) {
             return db.authors;
-        }
-    }
+        },
+        author(author, args) {
+            return db.authors.find((author) => author.id === args.id);
+        },
+    },
 };
 //server setup
 // The ApolloServer constructor requires two parameters: your schema
