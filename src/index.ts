@@ -8,18 +8,48 @@ import { typeDefs } from './schema.js'
 
 // Resolvers define how to fetch the types defined in your schema.
 
+interface Game {
+  id: string;
+  title: string;
+  platform: string[];
+
+}
+
+interface Review {
+  id: string;
+  rating: number;
+  content: string;
+
+}
+
+interface Author {
+  id: string;
+  name: string;
+  verified: boolean;
+
+}
+
 const resolvers = {
   Query: {
-    games() {
-      return db.games
+    games(author: Author): Game[] {
+      return db.games;
     },
-    reviews() {
-      return db.reviews
+    game(author: Author, args: { id: string }): Game | undefined {
+      return db.games.find((game: Game) => game.id === args.id);
     },
-    authors() {
-      return db.authors
-    }
- }
+    reviews(author: Author): Review[] {
+      return db.reviews;
+    },
+    review(author: Author, args: { id: string }): Review | undefined {
+      return db.reviews.find((review: Review) => review.id === args.id);
+    },
+    authors(author: Author): Author[] {
+      return db.authors;
+    },
+    author(author: Author, args: { id: string }): Author | undefined {
+      return db.authors.find((author: Author) => author.id === args.id);
+    },
+  },
 };
 
 
