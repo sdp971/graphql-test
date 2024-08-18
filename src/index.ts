@@ -34,6 +34,14 @@ interface AddGameInput {
   platform: string[];
 }
 
+interface EditGameInput {
+  id: string;
+  title: string;
+  platform: string[];
+}
+
+type GameUpdate = Omit<Game, 'id'>;
+
 const resolvers = {
   Query: {
     games(author: Author): Game[] {
@@ -87,6 +95,19 @@ const resolvers = {
       db.games.push(game);
 
       return game;
+    },
+    updateGame(parent: Game, args: { id: string, edits: EditGameInput }): Game | null {
+     const updatedGameIndex = db.games.findIndex((game) => game.id === args.id);
+
+     if (updatedGameIndex !== -1) {
+       db.games[updatedGameIndex] = {
+         ...db.games[updatedGameIndex],
+         ...args.edits,
+       };
+       return db.games[updatedGameIndex];
+     }
+
+     return null;
     },
   },
 };

@@ -56,6 +56,17 @@ const resolvers = {
             db.games.push(game);
             return game;
         },
+        updateGame(parent, args) {
+            const updatedGameIndex = db.games.findIndex((game) => game.id === args.id);
+            if (updatedGameIndex !== -1) {
+                db.games[updatedGameIndex] = {
+                    ...db.games[updatedGameIndex],
+                    ...args.edits,
+                };
+                return db.games[updatedGameIndex];
+            }
+            return null;
+        },
     },
 };
 //server setup
